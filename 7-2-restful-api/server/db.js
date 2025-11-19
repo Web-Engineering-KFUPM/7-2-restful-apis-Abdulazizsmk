@@ -8,6 +8,16 @@
 import mongoose from "mongoose";
 
 export async function connectDB(url) {
-  await mongoose.connect(url);
-  console.log("[DB] Mongo connected");
+  try {
+    await mongoose.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log("[DB] Mongo connected successfully");
+  } catch (err) {
+    console.error("[DB] Connection failed:", err.message);
+    throw err;
+     // Important: rethrow so server stops if DB fails
+  }
 }
